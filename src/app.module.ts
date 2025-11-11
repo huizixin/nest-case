@@ -20,7 +20,7 @@ import { PrismaService } from '@/shared/database/prisma.service';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [  
+      load: [
         appConfig,
         databaseConfig,
         jwtConfig,
@@ -30,8 +30,8 @@ import { PrismaService } from '@/shared/database/prisma.service';
         uploadConfig,
         mailConfig,
       ],
-      envFilePath:  `.env.${process.env.NODE_ENV || 'development'}`,
-      expandVariables: true
+      envFilePath: `.env.${process.env.NODE_ENV || 'development'}`,
+      expandVariables: true,
     }),
 
     // 共享模块

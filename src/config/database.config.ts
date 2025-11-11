@@ -1,9 +1,7 @@
 import { registerAs } from '@nestjs/config';
 
 export const databaseConfig = registerAs('database', () => ({
-  url:
-    process.env.DATABASE_URL ||
-    'mysql://root:password@localhost:3306/nestjs_enterprise',
+  url: process.env.DATABASE_URL || 'mysql://root:password@localhost:3306/nestjs_enterprise',
   host: process.env.DB_HOST || 'localhost',
   port: parseInt(process.env.DB_PORT || '3306', 10) || 3306,
   username: process.env.DB_USERNAME || 'root',

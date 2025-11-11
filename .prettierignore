@@ -1,0 +1,7 @@
+# .prettierignore
+dist
+node_modules
+*.md
+.env
+.vscode
+.git

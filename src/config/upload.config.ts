@@ -14,8 +14,7 @@ export const uploadConfig = registerAs('upload', () => ({
   tempDir: process.env.UPLOAD_TEMP_DIR || './uploads/temp',
 
   /** 是否保留原始文件名 */
-  preserveOriginalName:
-    process.env.UPLOAD_PRESERVE_ORIGINAL_NAME === 'true' || false,
+  preserveOriginalName: process.env.UPLOAD_PRESERVE_ORIGINAL_NAME === 'true' || false,
 
   // ==================== 通用文件上传限制 ====================
 
@@ -42,14 +41,7 @@ export const uploadConfig = registerAs('upload', () => ({
    */
   allowedMimeTypes: process.env.UPLOAD_ALLOWED_MIMETYPES
     ? process.env.UPLOAD_ALLOWED_MIMETYPES.split(',').map(type => type.trim())
-    : [
-        'image/jpeg',
-        'image/jpg',
-        'image/png',
-        'image/webp',
-        'image/gif',
-        'application/pdf',
-      ],
+    : ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'application/pdf'],
 
   // ==================== 图片上传配置 ====================
 
@@ -59,21 +51,17 @@ export const uploadConfig = registerAs('upload', () => ({
 
     /** 允许的图片类型 */
     allowedTypes: process.env.UPLOAD_IMAGE_ALLOWED_TYPES
-      ? process.env.UPLOAD_IMAGE_ALLOWED_TYPES.split(',').map(type =>
-          type.trim(),
-        )
+      ? process.env.UPLOAD_IMAGE_ALLOWED_TYPES.split(',').map(type => type.trim())
       : ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'],
 
     /** 图片上传子目录 */
     subDir: process.env.UPLOAD_IMAGE_SUB_DIR || 'images',
 
     /** 是否启用图片压缩 */
-    enableCompression:
-      process.env.UPLOAD_IMAGE_ENABLE_COMPRESSION === 'true' || false,
+    enableCompression: process.env.UPLOAD_IMAGE_ENABLE_COMPRESSION === 'true' || false,
 
     /** 压缩质量 (0-100) */
-    compressionQuality:
-      parseInt(process.env.UPLOAD_IMAGE_COMPRESSION_QUALITY || '80', 10) || 80,
+    compressionQuality: parseInt(process.env.UPLOAD_IMAGE_COMPRESSION_QUALITY || '80', 10) || 80,
 
     /** 最大宽度（像素）超过则自动缩放 */
     maxWidth: parseInt(process.env.UPLOAD_IMAGE_MAX_WIDTH || '2048', 10) || 2048,
@@ -90,9 +78,7 @@ export const uploadConfig = registerAs('upload', () => ({
 
     /** 允许的文档类型 */
     allowedTypes: process.env.UPLOAD_DOCUMENT_ALLOWED_TYPES
-      ? process.env.UPLOAD_DOCUMENT_ALLOWED_TYPES.split(',').map(type =>
-          type.trim(),
-        )
+      ? process.env.UPLOAD_DOCUMENT_ALLOWED_TYPES.split(',').map(type => type.trim())
       : [
           'application/pdf',
           'application/msword', // .doc
@@ -114,9 +100,7 @@ export const uploadConfig = registerAs('upload', () => ({
 
     /** 允许的视频类型 */
     allowedTypes: process.env.UPLOAD_VIDEO_ALLOWED_TYPES
-      ? process.env.UPLOAD_VIDEO_ALLOWED_TYPES.split(',').map(type =>
-          type.trim(),
-        )
+      ? process.env.UPLOAD_VIDEO_ALLOWED_TYPES.split(',').map(type => type.trim())
       : ['video/mp4', 'video/mpeg', 'video/quicktime', 'video/x-msvideo'],
 
     /** 视频上传子目录 */
@@ -131,9 +115,7 @@ export const uploadConfig = registerAs('upload', () => ({
 
     /** 允许的音频类型 */
     allowedTypes: process.env.UPLOAD_AUDIO_ALLOWED_TYPES
-      ? process.env.UPLOAD_AUDIO_ALLOWED_TYPES.split(',').map(type =>
-          type.trim(),
-        )
+      ? process.env.UPLOAD_AUDIO_ALLOWED_TYPES.split(',').map(type => type.trim())
       : ['audio/mpeg', 'audio/wav', 'audio/mp3', 'audio/ogg'],
 
     /** 音频上传子目录 */
@@ -148,21 +130,17 @@ export const uploadConfig = registerAs('upload', () => ({
 
     /** 允许的头像类型 */
     allowedTypes: process.env.UPLOAD_AVATAR_ALLOWED_TYPES
-      ? process.env.UPLOAD_AVATAR_ALLOWED_TYPES.split(',').map(type =>
-          type.trim(),
-        )
+      ? process.env.UPLOAD_AVATAR_ALLOWED_TYPES.split(',').map(type => type.trim())
       : ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
 
     /** 头像上传子目录 */
     subDir: process.env.UPLOAD_AVATAR_SUB_DIR || 'avatars',
 
     /** 是否启用头像压缩 */
-    enableCompression:
-      process.env.UPLOAD_AVATAR_ENABLE_COMPRESSION === 'true' || true,
+    enableCompression: process.env.UPLOAD_AVATAR_ENABLE_COMPRESSION === 'true' || true,
 
     /** 压缩质量 (0-100) */
-    compressionQuality:
-      parseInt(process.env.UPLOAD_AVATAR_COMPRESSION_QUALITY || '85', 10) || 85,
+    compressionQuality: parseInt(process.env.UPLOAD_AVATAR_COMPRESSION_QUALITY || '85', 10) || 85,
 
     /** 头像宽度（像素）- 会裁剪为正方形 */
     width: parseInt(process.env.UPLOAD_AVATAR_WIDTH || '200', 10) || 200,
@@ -183,27 +161,14 @@ export const uploadConfig = registerAs('upload', () => ({
     /** 禁止的文件扩展名 */
     deniedExtensions: process.env.UPLOAD_DENIED_EXTENSIONS
       ? process.env.UPLOAD_DENIED_EXTENSIONS.split(',').map(ext => ext.trim())
-      : [
-          '.exe',
-          '.bat',
-          '.cmd',
-          '.com',
-          '.pif',
-          '.scr',
-          '.vbs',
-          '.js',
-          '.jar',
-          '.sh',
-        ],
+      : ['.exe', '.bat', '.cmd', '.com', '.pif', '.scr', '.vbs', '.js', '.jar', '.sh'],
   },
 
   // ==================== 存储配置 ====================
 
   storage: {
     /** 存储类型: local | s3 | oss | cos */
-    type:
-      (process.env.UPLOAD_STORAGE_TYPE as 'local' | 's3' | 'oss' | 'cos') ||
-      'local',
+    type: (process.env.UPLOAD_STORAGE_TYPE as 'local' | 's3' | 'oss' | 'cos') || 'local',
 
     /** 本地存储配置 */
     local: {
@@ -211,8 +176,7 @@ export const uploadConfig = registerAs('upload', () => ({
       path: process.env.UPLOAD_LOCAL_PATH || './uploads',
 
       /** 文件URL前缀（用于返回访问地址） */
-      urlPrefix:
-        process.env.UPLOAD_LOCAL_URL_PREFIX || 'http://localhost:8000/uploads',
+      urlPrefix: process.env.UPLOAD_LOCAL_URL_PREFIX || 'http://localhost:8000/uploads',
     },
 
     /** S3 存储配置（AWS S3 / MinIO 等） */

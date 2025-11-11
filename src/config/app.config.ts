@@ -33,7 +33,6 @@ export const appConfig = registerAs('app', () => ({
     zippedArchive: process.env.LOG_ZIPPED_ARCHIVE === 'true', // 是否压缩归档
     enableDatabase: process.env.LOG_ENABLE_DATABASE === 'true', // 是否记录到数据库
     enableConsole: process.env.LOG_ENABLE_CONSOLE !== 'false', // 是否输出到控制台
-    databaseRetentionDays:
-      parseInt(process.env.LOG_DB_RETENTION_DAYS || '30', 10) || 30, // 数据库日志保留天数
+    databaseRetentionDays: parseInt(process.env.LOG_DB_RETENTION_DAYS || '30', 10) || 30, // 数据库日志保留天数
   },
 }));

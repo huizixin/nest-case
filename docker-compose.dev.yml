@@ -1,0 +1,201 @@
+# Docker Compose 配置文件版本定义
+# 可选版本：3.3（最低要求）、3.8（推荐）、3.9（最新功能）
+# 不同版本支持不同的功能特性，3.8 版本提供了良好的兼容性和功能支持
+version: '3.8'
+
+# 自定义项目名称（Docker Compose V2 语法），用于隔离不同项目的容器
+# 作用：避免不同项目的容器名称冲突，便于统一管理
+name: nest-study
+
+# 服务定义部分，定义了所有需要运行的容器服务
+services:
+  # MySQL 数据库服务
+  mysql:
+    # 使用 MySQL 8.0 版本的官方镜像
+    # 可选镜像：mysql:5.7（旧版本）、mysql:8.0（推荐）、mariadb:latest（替代方案）
+    image: mysql:8.0
+    
+    # 容器名称，便于识别和管理
+    # 命名规则：项目名-服务名-环境，避免与其他项目容器冲突
+    container_name: nest-study-mysql-dev
+    
+    # 重启策略：除非手动停止，否则自动重启
+    # 可选值：no（不重启）、always（总是重启）、on-failure（失败时重启）、unless-stopped（推荐）
+    restart: unless-stopped
+    
+    # 环境变量配置
+    environment:
+      # MySQL root 用户密码（生产环境应使用更复杂的密码）
+      # 安全性要求：至少8位，包含大小写字母、数字和特殊字符
+      MYSQL_ROOT_PASSWORD: password
+      
+      # 创建默认数据库名称
+      # 命名建议：项目名_环境，如 nest_study_db_test、nest_study_db_prod
+      MYSQL_DATABASE: nest_study_db_dev
+      
+      # 创建应用专用用户（避免使用 root 用户连接）
+      # 权限设置：只授予应用必要的数据库权限
+      MYSQL_USER: app_user
+      
+      # 应用用户密码（应与 root 密码不同）
+      MYSQL_PASSWORD: app_password
+      
+      # 设置容器时区为亚洲/上海
+      # 可选时区：Asia/Shanghai、Asia/Beijing、UTC、America/New_York 等
+      TZ: Asia/Shanghai
+    
+    # 端口映射：将容器内的 3306 端口映射到宿主机的 3306 端口
+    # 格式："宿主机端口:容器端口"，可修改宿主机端口避免冲突，如 "3307:3306"
+    ports:
+      - "3306:3306"
+    
+    # 数据卷挂载配置
+    volumes:
+      # 持久化存储卷：将容器内的数据库数据保存到宿主机的 mysql_data 卷中
+      # 卷类型：命名卷（推荐）、绑定挂载（开发调试）、tmpfs（临时数据）
+      - mysql_data:/var/lib/mysql
+      
+      # 初始化脚本：将本地的 SQL 初始化脚本挂载到容器启动时自动执行
+      # 用途：创建表结构、初始化数据、设置权限等
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    
+    # 容器启动命令参数
+    # 认证插件：mysql_native_password（兼容性）、caching_sha2_password（8.0默认）
+    # 字符集：utf8mb4 支持完整的 Unicode 字符（包括emoji）
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-time-zone='+08:00'
+    
+    # 健康检查配置，确保服务真正可用后才认为启动成功
+    healthcheck:
+      # 健康检查命令：使用 mysqladmin ping 检查 MySQL 服务状态
+      # 替代命令：["CMD", "mysql", "-u", "root", "-ppassword", "-e", "SELECT 1"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      
+      # 命令执行超时时间（秒）
+      # 调整建议：根据服务器性能调整，性能较差时可适当延长
+      timeout: 20s
+      
+      # 重试次数
+      # 调整建议：网络不稳定时可适当增加重试次数
+      retries: 10
+
+  # Redis 缓存服务
+  redis:
+    # 使用 Redis 7 版本的 Alpine Linux 轻量级镜像
+    # 可选镜像：redis:6-alpine（稳定）、redis:7（最新）、redis:latest（最新稳定版）
+    image: redis:7-alpine
+    
+    # 容器名称
+    container_name: enterprise-redis-dev
+    
+    # 重启策略
+    # 同 MySQL 服务，推荐使用 unless-stopped
+    restart: unless-stopped
+    
+    # 端口映射：将容器内的 6379 端口映射到宿主机的 6379 端口
+    # 可修改宿主机端口避免冲突，如 "6380:6379"
+    ports:
+      - "6379:6379"
+    
+    # 数据卷挂载
+    volumes:
+      # 持久化存储卷：Redis 数据持久化到宿主机的 redis_data 卷
+      # 持久化方式：AOF（追加日志）、RDB（快照）、无持久化（仅缓存）
+      - redis_data:/data
+    
+    # Redis 服务启动参数
+    # --appendonly yes：启用 AOF 持久化，确保数据安全
+    # --maxmemory 256mb：限制最大内存使用，防止内存溢出
+    # --maxmemory-policy allkeys-lru：内存满时的淘汰策略
+    # 淘汰策略选项：volatile-lru、allkeys-lru、volatile-random、allkeys-random、volatile-ttl、noeviction
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    
+    # 健康检查配置
+    healthcheck:
+      # 使用 redis-cli ping 检查 Redis 服务状态
+      test: ["CMD", "redis-cli", "ping"]
+      
+      # 检查间隔时间（秒）
+      # 调整建议：生产环境可缩短间隔，开发环境可适当延长
+      interval: 30s
+      
+      # 命令执行超时时间（秒）
+      timeout: 10s
+      
+      # 重试次数
+      retries: 3
+
+  # 可选：数据库管理工具（图形化界面管理数据库）
+  adminer:
+    # 使用 Adminer 数据库管理工具镜像
+    # 替代工具：phpmyadmin（功能丰富）、dbeaver（桌面版）、mysql-workbench（官方工具）
+    image: adminer
+    
+    # 容器名称
+    container_name: enterprise-adminer-dev
+    
+    # 重启策略
+    restart: unless-stopped
+    
+    # 端口映射：Adminer 管理界面访问端口
+    # 可修改端口避免冲突，如 "8088:8080"
+    ports:
+      - "8080:8080"
+    
+    # 依赖关系：只有在 MySQL 服务健康时才启动
+    depends_on:
+      mysql:
+        # 等待 MySQL 服务健康检查通过
+        # 可选条件：service_started（启动后）、service_healthy（健康后）、service_completed_successfully（成功完成后）
+        condition: service_healthy
+    
+    # 环境变量配置
+    environment:
+      # 设置默认连接的数据库服务器
+      # 格式：服务器名称:数据库类型:端口，如 mysql:mysql:3306
+      ADMINER_DEFAULT_SERVER: mysql
+
+  # 可选：Redis 管理工具（图形化界面管理 Redis）
+  redis-commander:
+    # 使用 Redis Commander 管理工具镜像
+    # 替代工具：redis-insight（官方工具）、medis（桌面版）、rdm（Windows版）
+    image: rediscommander/redis-commander:latest
+    
+    # 容器名称
+    container_name: enterprise-redis-commander-dev
+    
+    # 重启策略
+    restart: unless-stopped
+    
+    # 环境变量配置
+    environment:
+      # 配置 Redis 连接信息
+      # 格式：连接名称:主机:端口，多个连接用逗号分隔
+      REDIS_HOSTS: redis:redis:6379
+    
+    # 端口映射：Redis Commander 管理界面访问端口
+    # 可修改端口避免冲突，如 "8089:8081"
+    ports:
+      - "8081:8081"
+    
+    # 依赖关系：只有在 Redis 服务健康时才启动
+    depends_on:
+      redis:
+        # 等待 Redis 服务健康检查通过
+        condition: service_healthy
+
+# 数据卷定义部分，用于持久化存储容器数据
+volumes:
+  # MySQL 数据卷定义
+  # 卷类型：local（本地）、nfs（网络存储）、外部卷（已存在的卷）
+  mysql_data:
+  
+  # Redis 数据卷定义
+  redis_data:
+
+# 网络定义部分，容器间通信的网络配置
+networks:
+  # 默认网络配置
+  default:
+    # 自定义网络名称，便于识别和管理
+    # 网络类型：bridge（桥接，默认）、host（主机）、overlay（跨主机）
+    name: nest-study-network

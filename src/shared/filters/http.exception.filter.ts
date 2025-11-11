@@ -4,8 +4,7 @@ import { type LoggerService } from '@nestjs/common';
 
 @Catch(HttpException) // 只捕获http异常
 export class HttpExceptionFilter implements ExceptionFilter {
-  
-    constructor(private logger: LoggerService){}
+  constructor(private logger: LoggerService) {}
 
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp(); // host 代表整个程序的进程，可以通过这个拿到请求的上下文
@@ -13,8 +12,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest(); // 拿到请求的请求
     const status = exception.getStatus(); // 拿到异常的状态码
 
-
-    this.logger.error(exception.message, exception.stack)
+    this.logger.error(exception.message, exception.stack);
 
     response.status(status).json({
       statusCode: status,

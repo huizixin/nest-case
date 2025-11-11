@@ -23,9 +23,7 @@ export const securityConfig = registerAs('security', () => {
 
     // 会话配置
     session: {
-      secret:
-        process.env.SESSION_SECRET ||
-        'default-session-secret-change-in-production',
+      secret: process.env.SESSION_SECRET || 'default-session-secret-change-in-production',
       // 最大并发登录设备数 (1=单设备登录, 2-10=多设备登录)
       maxConcurrentSessions,
     },
@@ -33,8 +31,7 @@ export const securityConfig = registerAs('security', () => {
     // CSRF 配置（启用 csurf 或 double-submit 策略的情况下）
     csrf: {
       enabled: process.env.CSRF_ENABLED === 'true' || false,
-      secret:
-        process.env.CSRF_SECRET || 'default-csrf-secret-change-in-production',
+      secret: process.env.CSRF_SECRET || 'default-csrf-secret-change-in-production',
       // CSRF cookie / header 名称
       cookieName: process.env.CSRF_COOKIE_NAME || 'XSRF-TOKEN',
       headerName: process.env.CSRF_HEADER_NAME || 'X-XSRF-TOKEN',
@@ -43,8 +40,7 @@ export const securityConfig = registerAs('security', () => {
         httpOnly: false, // 必须为 false 以允许前端读取（double-submit）
         secure: process.env.NODE_ENV === 'production',
         sameSite: process.env.CSRF_COOKIE_SAMESITE || 'lax',
-        maxAge:
-          parseInt(process.env.CSRF_COOKIE_MAXAGE || '0', 10) || undefined,
+        maxAge: parseInt(process.env.CSRF_COOKIE_MAXAGE || '0', 10) || undefined,
       },
       // 白名单路径（用逗号分隔）
       exemptPaths: (process.env.CSRF_EXEMPT_PATHS || '')
