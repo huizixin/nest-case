@@ -23,19 +23,19 @@ export const uploadConfig = registerAs('upload', () => ({
    * 单个文件最大大小（字节）
    * @default 10485760 (10MB)
    */
-  maxFileSize: parseInt(process.env.UPLOAD_MAX_FILE_SIZE, 10) || 10485760,
+  maxFileSize: parseInt(process.env.UPLOAD_MAX_FILE_SIZE || '10485760', 10) || 10485760,
 
   /**
    * 单次请求最多上传文件数
    * @default 10
    */
-  maxFiles: parseInt(process.env.UPLOAD_MAX_FILES, 10) || 10,
+  maxFiles: parseInt(process.env.UPLOAD_MAX_FILES || '10', 10) || 10,
 
   /**
    * 单次请求总文件大小限制（字节）
    * @default 52428800 (50MB)
    */
-  maxTotalSize: parseInt(process.env.UPLOAD_MAX_TOTAL_SIZE, 10) || 52428800,
+  maxTotalSize: parseInt(process.env.UPLOAD_MAX_TOTAL_SIZE || '52428800', 10) || 52428800,
 
   /**
    * 允许的 MIME 类型（通用）
@@ -55,7 +55,7 @@ export const uploadConfig = registerAs('upload', () => ({
 
   image: {
     /** 图片文件最大大小（字节）@default 5242880 (5MB) */
-    maxSize: parseInt(process.env.UPLOAD_IMAGE_MAX_SIZE, 10) || 5242880,
+    maxSize: parseInt(process.env.UPLOAD_IMAGE_MAX_SIZE || '5242880', 10) || 5242880,
 
     /** 允许的图片类型 */
     allowedTypes: process.env.UPLOAD_IMAGE_ALLOWED_TYPES
@@ -73,20 +73,20 @@ export const uploadConfig = registerAs('upload', () => ({
 
     /** 压缩质量 (0-100) */
     compressionQuality:
-      parseInt(process.env.UPLOAD_IMAGE_COMPRESSION_QUALITY, 10) || 80,
+      parseInt(process.env.UPLOAD_IMAGE_COMPRESSION_QUALITY || '80', 10) || 80,
 
     /** 最大宽度（像素）超过则自动缩放 */
-    maxWidth: parseInt(process.env.UPLOAD_IMAGE_MAX_WIDTH, 10) || 2048,
+    maxWidth: parseInt(process.env.UPLOAD_IMAGE_MAX_WIDTH || '2048', 10) || 2048,
 
     /** 最大高度（像素）超过则自动缩放 */
-    maxHeight: parseInt(process.env.UPLOAD_IMAGE_MAX_HEIGHT, 10) || 2048,
+    maxHeight: parseInt(process.env.UPLOAD_IMAGE_MAX_HEIGHT || '2048', 10) || 2048,
   },
 
   // ==================== 文档上传配置 ====================
 
   document: {
     /** 文档文件最大大小（字节）@default 10485760 (10MB) */
-    maxSize: parseInt(process.env.UPLOAD_DOCUMENT_MAX_SIZE, 10) || 10485760,
+    maxSize: parseInt(process.env.UPLOAD_DOCUMENT_MAX_SIZE || '10485760', 10) || 10485760,
 
     /** 允许的文档类型 */
     allowedTypes: process.env.UPLOAD_DOCUMENT_ALLOWED_TYPES
@@ -110,7 +110,7 @@ export const uploadConfig = registerAs('upload', () => ({
 
   video: {
     /** 视频文件最大大小（字节）@default 104857600 (100MB) */
-    maxSize: parseInt(process.env.UPLOAD_VIDEO_MAX_SIZE, 10) || 104857600,
+    maxSize: parseInt(process.env.UPLOAD_VIDEO_MAX_SIZE || '104857600', 10) || 104857600,
 
     /** 允许的视频类型 */
     allowedTypes: process.env.UPLOAD_VIDEO_ALLOWED_TYPES
@@ -127,7 +127,7 @@ export const uploadConfig = registerAs('upload', () => ({
 
   audio: {
     /** 音频文件最大大小（字节）@default 20971520 (20MB) */
-    maxSize: parseInt(process.env.UPLOAD_AUDIO_MAX_SIZE, 10) || 20971520,
+    maxSize: parseInt(process.env.UPLOAD_AUDIO_MAX_SIZE || '20971520', 10) || 20971520,
 
     /** 允许的音频类型 */
     allowedTypes: process.env.UPLOAD_AUDIO_ALLOWED_TYPES
@@ -144,7 +144,7 @@ export const uploadConfig = registerAs('upload', () => ({
 
   avatar: {
     /** 头像文件最大大小（字节）@default 2097152 (2MB) */
-    maxSize: parseInt(process.env.UPLOAD_AVATAR_MAX_SIZE, 10) || 2097152,
+    maxSize: parseInt(process.env.UPLOAD_AVATAR_MAX_SIZE || '2097152', 10) || 2097152,
 
     /** 允许的头像类型 */
     allowedTypes: process.env.UPLOAD_AVATAR_ALLOWED_TYPES
@@ -162,13 +162,13 @@ export const uploadConfig = registerAs('upload', () => ({
 
     /** 压缩质量 (0-100) */
     compressionQuality:
-      parseInt(process.env.UPLOAD_AVATAR_COMPRESSION_QUALITY, 10) || 85,
+      parseInt(process.env.UPLOAD_AVATAR_COMPRESSION_QUALITY || '85', 10) || 85,
 
     /** 头像宽度（像素）- 会裁剪为正方形 */
-    width: parseInt(process.env.UPLOAD_AVATAR_WIDTH, 10) || 200,
+    width: parseInt(process.env.UPLOAD_AVATAR_WIDTH || '200', 10) || 200,
 
     /** 头像高度（像素）- 会裁剪为正方形 */
-    height: parseInt(process.env.UPLOAD_AVATAR_HEIGHT, 10) || 200,
+    height: parseInt(process.env.UPLOAD_AVATAR_HEIGHT || '200', 10) || 200,
   },
 
   // ==================== 安全配置 ====================

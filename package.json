@@ -17,13 +17,19 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "db:generate": "dotenv -e .env.development -- prisma generate",
+    "db:generate:test": "dotenv -e .env.test -- prisma generate",
+    "db:generate:prod": "dotenv -e .env.production -- prisma generate",
+    "db:migrate": "dotenv -e .env.development -- prisma migrate dev",
+    "db:migrate:test": "dotenv -e .env.test -- prisma migrate dev"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
+    "@prisma/client": "^6.19.0",
     "nest-winston": "^1.10.2",
     "prisma": "^6.19.0",
     "reflect-metadata": "^0.2.2",
@@ -41,6 +47,7 @@
     "@types/jest": "^30.0.0",
     "@types/node": "^22.10.7",
     "@types/supertest": "^6.0.2",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",

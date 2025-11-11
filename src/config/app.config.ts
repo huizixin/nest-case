@@ -3,7 +3,7 @@ import { registerAs } from '@nestjs/config';
 export const appConfig = registerAs('app', () => ({
   name: process.env.APP_NAME || 'Enterprise NestJS Backend',
   env: process.env.NODE_ENV || 'development',
-  port: parseInt(process.env.PORT, 10) || 8000,
+  port: parseInt(process.env.PORT || '8000', 10) || 8000,
   host: process.env.HOST || '0.0.0.0',
   allowedOrigins: process.env.ALLOWED_ORIGINS || 'http://localhost:8000',
   apiPrefix: process.env.API_PREFIX || 'api/v1',
@@ -34,6 +34,6 @@ export const appConfig = registerAs('app', () => ({
     enableDatabase: process.env.LOG_ENABLE_DATABASE === 'true', // 是否记录到数据库
     enableConsole: process.env.LOG_ENABLE_CONSOLE !== 'false', // 是否输出到控制台
     databaseRetentionDays:
-      parseInt(process.env.LOG_DB_RETENTION_DAYS, 10) || 30, // 数据库日志保留天数
+      parseInt(process.env.LOG_DB_RETENTION_DAYS || '30', 10) || 30, // 数据库日志保留天数
   },
 }));

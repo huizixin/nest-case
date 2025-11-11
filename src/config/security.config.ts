@@ -6,7 +6,7 @@ import { registerAs } from '@nestjs/config';
  */
 export const securityConfig = registerAs('security', () => {
   // 读取最大并发会话数配置，并进行边界校验
-  let maxConcurrentSessions = parseInt(process.env.MAX_CONCURRENT_SESSIONS, 10);
+  let maxConcurrentSessions = parseInt(process.env.MAX_CONCURRENT_SESSIONS || '5', 10);
 
   // 边界校验：最小值 1，最大值 10，默认值 5
   if (isNaN(maxConcurrentSessions) || maxConcurrentSessions < 1) {
@@ -18,7 +18,7 @@ export const securityConfig = registerAs('security', () => {
   return {
     // 密码加密
     bcrypt: {
-      rounds: parseInt(process.env.BCRYPT_ROUNDS, 10) || 12,
+      rounds: parseInt(process.env.BCRYPT_ROUNDS || '12', 10) || 12,
     },
 
     // 会话配置

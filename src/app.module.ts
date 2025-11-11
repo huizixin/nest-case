@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { LoggerModule } from './shared/logger/logger.module';
+import { LoggerModule } from '@/shared/logger/logger.module';
 import { ConfigModule } from '@nestjs/config';
 // 配置
 import {
@@ -14,6 +14,7 @@ import {
   uploadConfig,
   mailConfig,
 } from './config';
+import { PrismaService } from '@/shared/database/prisma.service';
 
 @Module({
   imports: [
@@ -32,11 +33,11 @@ import {
       envFilePath:  `.env.${process.env.NODE_ENV || 'development'}`,
       expandVariables: true
     }),
-    
+
     // 共享模块
     LoggerModule, // 日志模块
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, PrismaService],
 })
 export class AppModule {}

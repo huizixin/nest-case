@@ -7,7 +7,7 @@ import { registerAs } from '@nestjs/config';
 export const mailConfig = registerAs('mail', () => ({
   // SMTP 服务器配置
   host: process.env.MAIL_HOST || 'smtp.example.com',
-  port: parseInt(process.env.MAIL_PORT, 10) || 587,
+  port: parseInt(process.env.MAIL_PORT || '587', 10) || 587,
   secure: process.env.MAIL_SECURE === 'true', // 是否使用 SSL
 
   // 认证信息
