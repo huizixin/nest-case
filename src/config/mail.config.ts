@@ -18,13 +18,13 @@ export const mailConfig = registerAs('mail', () => ({
 
   // 发件人信息
   from: {
-    name: process.env.MAIL_FROM_NAME || 'Enterprise NestJS',
-    address: process.env.MAIL_FROM || 'noreply@enterprise.local',
+    name: process.env.MAIL_FROM_NAME || 'nest-study NestJS',
+    address: process.env.MAIL_FROM || 'noreply@nest-study.local',
   },
 
   // 邮件发送配置
   defaults: {
-    from: process.env.MAIL_FROM || 'noreply@enterprise.local',
+    from: process.env.MAIL_FROM || 'noreply@nest-study.local',
   },
 
   // 预览模式（开发环境）

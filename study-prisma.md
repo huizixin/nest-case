@@ -21,3 +21,16 @@ npx prisma generate
 "db:generate:prod": "DOTENV_CONFIG_PATH=.env.production prisma generate"
 
 ~~~
+
+如果有运行错误，tsconfig.json, 因为 **Prisma、TypeORM 等数据库工具与 CommonJS 深度集成**
+
+~~~
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    ...
+ }
+}
+~~~
+

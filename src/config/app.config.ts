@@ -1,7 +1,7 @@
 import { registerAs } from '@nestjs/config';
 
 export const appConfig = registerAs('app', () => ({
-  name: process.env.APP_NAME || 'Enterprise NestJS Backend',
+  name: process.env.APP_NAME || 'nest-study NestJS Backend',
   env: process.env.NODE_ENV || 'development',
   port: parseInt(process.env.PORT || '8000', 10) || 8000,
   host: process.env.HOST || '0.0.0.0',

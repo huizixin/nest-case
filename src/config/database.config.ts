@@ -1,12 +1,12 @@
 import { registerAs } from '@nestjs/config';
 
 export const databaseConfig = registerAs('database', () => ({
-  url: process.env.DATABASE_URL || 'mysql://root:password@localhost:3306/nestjs_enterprise',
+  url: process.env.DATABASE_URL || 'mysql://root:password@localhost:3306/nestjs_nest-study',
   host: process.env.DB_HOST || 'localhost',
   port: parseInt(process.env.DB_PORT || '3306', 10) || 3306,
   username: process.env.DB_USERNAME || 'root',
   password: process.env.DB_PASSWORD || 'password',
-  database: process.env.DB_DATABASE || 'nestjs_enterprise',
+  database: process.env.DB_DATABASE || 'nestjs_nest-study',
   logging: process.env.DB_LOGGING === 'true',
   synchronize: process.env.DB_SYNCHRONIZE === 'true',
   maxConnections: parseInt(process.env.DB_MAX_CONNECTIONS || '100', 10) || 100,

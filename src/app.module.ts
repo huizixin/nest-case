@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { LoggerModule } from '@/shared/logger/logger.module';
 import { ConfigModule } from '@nestjs/config';
 // 配置
@@ -37,7 +35,7 @@ import { PrismaService } from '@/shared/database/prisma.service';
     // 共享模块
     LoggerModule, // 日志模块
   ],
-  controllers: [AppController],
-  providers: [AppService, PrismaService],
+  controllers: [],
+  providers: [PrismaService],
 })
 export class AppModule {}

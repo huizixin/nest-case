@@ -1,35 +1,63 @@
-// @ts-check
-import eslint from '@eslint/js';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import js from '@eslint/js';
+import typescript from '@typescript-eslint/eslint-plugin';
+import typescriptParser from '@typescript-eslint/parser';
+import prettier from 'eslint-config-prettier';
 import globals from 'globals';
-import tseslint from 'typescript-eslint';
 
-export default tseslint.config(
+export default [
+  js.configs.recommended,
   {
-    ignores: ['eslint.config.mjs'],
-  },
-  eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
-  eslintPluginPrettierRecommended,
-  {
+    ignores: [
+      'node_modules/',
+      'dist/',
+      'coverage/',
+      '*.config.js',
+      'prisma/migrations/',
+      'eslint.config.mjs',
+    ],
+    files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
+      parser: typescriptParser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        project: './tsconfig.json',
+      },
       globals: {
         ...globals.node,
         ...globals.jest,
       },
-      sourceType: 'commonjs',
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
-      },
+    },
+    plugins: {
+      '@typescript-eslint': typescript,
+    },
+    rules: {
+      ...typescript.configs.recommended.rules,
+      '@typescript-eslint/interface-name-prefix': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-var-requires': 'off',
     },
   },
   {
-    rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-floating-promises': 'warn',
-      '@typescript-eslint/no-unsafe-argument': 'warn',
-      "prettier/prettier": ["error", { endOfLine: "auto" }],
+    files: ['**/*.js', '**/*.mjs'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      globals: globals.node,
     },
   },
-);
+  {
+    ignores: [
+      'node_modules/',
+      'dist/',
+      'coverage/',
+      '*.config.js',
+      'prisma/migrations/',
+      'eslint.config.mjs',
+    ],
+  },
+  prettier,
+];
